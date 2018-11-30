@@ -16,6 +16,11 @@
 default_platform(:ios)
 
 platform :ios do
+
+  lane :provisioning do
+    produce(username: ENV["APPLE_ID"], app_identifier: 'com.wiprodigital.hellofromreactnative', app_name: 'HelloFromReactNative', skip_itc: true)
+  end
+
   desc "Just another build"
   lane :build do
     get_certificates
