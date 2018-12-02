@@ -23,8 +23,8 @@ platform :ios do
 
   desc "Just another build"
   lane :build do
-    get_certificates
-    get_provisioning_profile
-    build_app(scheme: "HelloJenkinsFromReactNative")
+    get_certificates(username: ENV["APPLE_ID"])
+    get_provisioning_profile(username: ENV["APPLE_ID"], app_identifier: 'com.wiprodigital.hellofromreactnative')
+    build_app(scheme: "HelloJenkinsFromReactNative", clean: true)
   end
 end
