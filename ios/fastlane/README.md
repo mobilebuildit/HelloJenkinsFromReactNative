@@ -16,16 +16,39 @@ or alternatively using `brew cask install fastlane`
 
 # Available Actions
 ## iOS
-### ios provisioning
+### ios make_provisioning
 ```
-fastlane ios provisioning
+fastlane ios make_provisioning
 ```
+Makes a brand new provisioning on Apple's portal
+### ios setup_provisioning
+```
+fastlane ios setup_provisioning
+```
+Download certificates / provisioning if needed and ensure correct usage
 
+
+
+- Make sure your keychain is open (specially for Jenkins)
 ### ios build
 ```
 fastlane ios build
 ```
 Just another build
+### ios deploy_hockey
+```
+fastlane ios deploy_hockey
+```
+Build and deploy beta version to Hockey app
+
+
+
+Check https://docs.fastlane.tools/actions/hockey for a list of properties
+### ios deploy_crashlytics
+```
+fastlane ios deploy_crashlytics
+```
+
 
 ----
 

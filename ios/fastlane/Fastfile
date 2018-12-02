@@ -17,14 +17,44 @@ default_platform(:ios)
 
 platform :ios do
 
-  lane :provisioning do
+  desc "Makes a brand new provisioning on Apple's portal"
+  lane :make_provisioning do
     produce(username: ENV["APPLE_ID"], app_identifier: 'com.wiprodigital.hellofromreactnative', app_name: 'HelloFromReactNative', skip_itc: true)
+  end
+
+  desc "Download certificates / provisioning if needed and ensure correct usage"
+  desc ""
+  desc "- Make sure your keychain is open (specially for Jenkins)"
+  lane :setup_provisioning do
+    get_certificates(username: ENV["APPLE_ID"])
+    get_provisioning_profile(
+      username: ENV["APPLE_ID"],
+      app_identifier: 'com.wiprodigital.hellofromreactnative'
+    )
   end
 
   desc "Just another build"
   lane :build do
-    get_certificates(username: ENV["APPLE_ID"])
-    get_provisioning_profile(username: ENV["APPLE_ID"], app_identifier: 'com.wiprodigital.hellofromreactnative')
-    build_app(scheme: "HelloJenkinsFromReactNative", clean: true)
+    setup_provisioning
+    build_app(
+      scheme: "HelloJenkinsFromReactNative",
+      clean: true
+    )
+  end
+
+  desc "Build and deploy beta version to Hockey app"
+  desc ""
+  desc "Check https://docs.fastlane.tools/actions/hockey for a list of properties"
+  lane :deploy_hockey do
+    build
+    hockey(
+      api_token: ENV["HOCKEY_APP_TOKEN"],
+      notes: "The official beta app"
+    )
+    clean_build_artifacts
+  end
+
+  lane :deploy_crashlytics do
+    build
   end
 end
