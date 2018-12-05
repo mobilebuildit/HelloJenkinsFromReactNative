@@ -17,6 +17,10 @@ default_platform(:ios)
 
 platform :ios do
 
+  lane :test do
+    scan(scheme: "HelloJenkinsFromReactNative")
+  end
+
   desc "Makes a brand new provisioning on Apple's portal"
   lane :make_provisioning do
     produce(username: ENV["APPLE_ID"], app_identifier: 'com.wiprodigital.hellofromreactnative', app_name: 'HelloFromReactNative', skip_itc: true)
